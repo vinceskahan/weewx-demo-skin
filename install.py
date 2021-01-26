@@ -11,7 +11,18 @@ except ImportError:
     # Python 3
     from io import StringIO
 
-# what we want in weewx.conf
+
+#------ extension info ------------
+
+extension_version="0.3",
+
+extension_name='demo-skin',
+extension_description='demo minimalist custom skin',
+extension_author="Vince Skahan",
+extension_author_email="vinceskahan@gmail.com",
+
+#----------- config ---------------
+
 extension_config = """
 [StdReport]
 
@@ -23,7 +34,8 @@ extension_config = """
 """
 extension_dict = configobj.ConfigObj(StringIO(extension_config))
 
-# files to drop into place
+#----------- files ----------------
+
 files=[
   ('skins/demo-skin',
     [
@@ -35,23 +47,25 @@ files=[
 ]
 files_dict = files
 
+#----------------------------------
+
 def loader():
     return MySkinInstaller()
 
 class MySkinInstaller(ExtensionInstaller):
     def __init__(self):
         super(MySkinInstaller, self).__init__(
-            version="0.3",
-            name='demo-skin',
-            description='demo minimalist custom skin',
-            author="Vince Skahan",
-            author_email="vinceskahan@gmail.com",
+            version=extension_version,
+            name=extension_name,
+            description=extension_description,
+            author=extension_author,
+            author_email=extension_author_email
             config=extension_dict,
             files=files_dict
         )
 
 
-# optionally you might also have
+# optionally you might also have the following
 #   report_services='string_here',
 #   archive_services=['something', somethingelse'],
 #   process_services='something',
