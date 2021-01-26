@@ -11,17 +11,41 @@ except ImportError:
     # Python 3
     from io import StringIO
 
+#--------- extension info ----------
 
-#------ extension info ------------
+EXTENSION_VER="0.3"
 
-extension_version="0.3",
+EXTENSION_NAME="demo-skin"
+EXTENSION_DESC="demo minimalist custom skin"
+EXTENSION_AUTH="Vince Skahan"
+EXTENSION_EMAIL="vinceskahan@gmail.com"
 
-extension_name='demo-skin',
-extension_description='demo minimalist custom skin',
-extension_author="Vince Skahan",
-extension_author_email="vinceskahan@gmail.com",
+#--------- main installer ---------
 
-#----------- config ---------------
+def loader():
+    return MySkinInstaller()
+
+class MySkinInstaller(ExtensionInstaller):
+    def __init__(self):
+        super(MySkinInstaller, self).__init__(
+            version=EXTENSION_VER,
+            name=EXTENSION_NAME,
+            description=EXTENSION_DESC,
+            author=EXTENSION_AUTH,
+            author_email=EXTENSION_EMAIL,
+            config=extension_dict,
+            files=files_dict
+            )
+
+
+# optionally you might also have the following
+#   report_services='string_here',
+#   archive_services=['something', somethingelse'],
+#   process_services='something',
+
+#----------------------------------
+#         config stanza
+#----------------------------------
 
 extension_config = """
 [StdReport]
@@ -34,7 +58,9 @@ extension_config = """
 """
 extension_dict = configobj.ConfigObj(StringIO(extension_config))
 
-#----------- files ----------------
+#----------------------------------
+#        files stanza
+#----------------------------------
 
 files=[
   ('skins/demo-skin',
@@ -43,30 +69,10 @@ files=[
       'skins/demo-skin/mystyle.css',
       'skins/demo-skin/skin.conf'
     ],
-  ),
+  )
 ]
 files_dict = files
 
-#----------------------------------
-
-def loader():
-    return MySkinInstaller()
-
-class MySkinInstaller(ExtensionInstaller):
-    def __init__(self):
-        super(MySkinInstaller, self).__init__(
-            version=extension_version,
-            name=extension_name,
-            description=extension_description,
-            author=extension_author,
-            author_email=extension_author_email
-            config=extension_dict,
-            files=files_dict
-        )
-
-
-# optionally you might also have the following
-#   report_services='string_here',
-#   archive_services=['something', somethingelse'],
-#   process_services='something',
-#
+#---------------------------------
+#          done
+#---------------------------------
